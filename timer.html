@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            color: rgb(135, 0, 0);
+        }
+        #timer {
+            background-color: rgb(121, 0, 0);
+            border-radius: 50%;
+        }
+        .clock-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: calc((100vh - 100vmin) / 2);
+        }
+        #current-time, #remaining-time {
+            font-size: 15em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div id="current-time"></div>
+    </div>
+    <canvas id="timer"></canvas>
+    <div class="clock-container">
+        <div id="remaining-time"></div>
+    </div>
+    <script>
+        var now = new Date();
+        var minutes = now.getMinutes();
+        var countdown = ((15 - minutes % 15) * 60) - now.getSeconds();
+        var canvas = document.getElementById('timer');
+        var size = Math.min(window.innerWidth, window.innerHeight);
+        canvas.width = size;
+        canvas.height = size;
+        var ctx = canvas.getContext('2d');
+        var center = {x: canvas.width / 2, y: canvas.height / 2};
+        var radius = canvas.width / 2;
+        var startAngle = -0.5 * Math.PI; // start at the top
+        var endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60)); // calculate initial end angle
+        function drawCircle() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // clear previous frame
+            ctx.beginPath();
+            ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI); // draw full circle
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+        function drawCountdown() {
+            ctx.beginPath();
+            ctx.arc(center.x, center.y, radius, startAngle, endAngle, true); // draw countdown
+            ctx.lineTo(center.x, center.y);
+            ctx.fillStyle = 'black';
+            ctx.fill();
+        }
+        function formatTime(seconds) {
+            var minutes = Math.floor(seconds / 60);
+            var seconds = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        function playTone(frequency = 440, duration = 500) {
+            var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            var oscillator = audioContext.createOscillator();
+            oscillator.frequency.value = frequency;
+            oscillator.type = "square";
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+            setTimeout(function() {
+                oscillator.stop();
+            }, duration);
+        }
+        setInterval(function() {
+            countdown--;
+            endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60)); // calculate end angle
+            drawCircle();
+            drawCountdown();
+            // Update time displays
+            var now = new Date();
+            document.getElementById('current-time').textContent = formatTime(now.getHours() * 60 + now.getMinutes());
+            document.getElementById('remaining-time').textContent = formatTime(countdown);
+            // Ring a bell every 15 min
+            if (countdown === 0) {
+                playTone(440, 500);
+                countdown = 15 * 60;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
