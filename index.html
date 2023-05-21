@@ -91,17 +91,22 @@
                 oscillator.stop();
             }, duration);
         }
+        function calculateCountdown() {
+            var now = new Date();
+            var minutes = now.getMinutes();
+            var countdown = ((15 - minutes % 15) * 60) - now.getSeconds();
+            return countdown;
+        }
         setInterval(function() {
-            countdown--;
+            countdown = calculateCountdown(); // recalculate countdown based on system time
             endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60));
             drawCircle();
             drawCountdown();
             var now = new Date();
             document.getElementById('current-time').textContent = formatTime(now.getHours() * 60 + now.getMinutes());
             document.getElementById('remaining-time').textContent = formatTime(countdown);
-            if (countdown === 0) {
+            if (countdown <= 0) {
                 playTone(440, 500);
-                countdown = 15 * 60;
             }
             setColors(); // Set the colors based on the current time
         }, 1000);
