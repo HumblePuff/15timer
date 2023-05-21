@@ -37,6 +37,17 @@
         <div id="remaining-time"></div>
     </div>
     <script>
+        function setColors() {
+            var now = new Date();
+            var minutes = now.getMinutes();
+            if (!((minutes >= 0 && minutes < 15) || (minutes >= 30 && minutes < 45))){
+                document.body.style.color = "rgb(135, 0, 0)";
+                document.getElementById('timer').style.backgroundColor = "rgb(121, 0, 0)";
+            } else {
+                document.body.style.color = "green";
+                document.getElementById('timer').style.backgroundColor = "green";
+            }
+        }
         var now = new Date();
         var minutes = now.getMinutes();
         var countdown = ((15 - minutes % 15) * 60) - now.getSeconds();
@@ -47,19 +58,19 @@
         var ctx = canvas.getContext('2d');
         var center = {x: canvas.width / 2, y: canvas.height / 2};
         var radius = canvas.width / 2;
-        var startAngle = -0.5 * Math.PI; // start at the top
-        var endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60)); // calculate initial end angle
+        var startAngle = -0.5 * Math.PI;
+        var endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60));
         function drawCircle() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // clear previous frame
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.beginPath();
-            ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI); // draw full circle
+            ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI);
             ctx.strokeStyle = 'white';
             ctx.lineWidth = 2;
             ctx.stroke();
         }
         function drawCountdown() {
             ctx.beginPath();
-            ctx.arc(center.x, center.y, radius, startAngle, endAngle, true); // draw countdown
+            ctx.arc(center.x, center.y, radius, startAngle, endAngle, true);
             ctx.lineTo(center.x, center.y);
             ctx.fillStyle = 'black';
             ctx.fill();
@@ -82,18 +93,17 @@
         }
         setInterval(function() {
             countdown--;
-            endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60)); // calculate end angle
+            endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60));
             drawCircle();
             drawCountdown();
-            // Update time displays
             var now = new Date();
             document.getElementById('current-time').textContent = formatTime(now.getHours() * 60 + now.getMinutes());
             document.getElementById('remaining-time').textContent = formatTime(countdown);
-            // Ring a bell every 15 min
             if (countdown === 0) {
                 playTone(440, 500);
                 countdown = 15 * 60;
             }
+            setColors(); // Set the colors based on the current time
         }, 1000);
     </script>
 </body>
