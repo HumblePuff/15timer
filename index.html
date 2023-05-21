@@ -94,7 +94,11 @@
         function calculateCountdown() {
             var now = new Date();
             var minutes = now.getMinutes();
-            var countdown = ((15 - minutes % 15) * 60) - now.getSeconds();
+            var seconds = now.getSeconds();
+            var countdown = ((15 - (minutes % 15)) * 60) - seconds;
+            if (minutes % 15 == 0 && seconds == 0) {
+                playTone(440, 500);
+            }
             return countdown;
         }
         setInterval(function() {
@@ -105,9 +109,6 @@
             var now = new Date();
             document.getElementById('current-time').textContent = formatTime(now.getHours() * 60 + now.getMinutes());
             document.getElementById('remaining-time').textContent = formatTime(countdown);
-            if (countdown <= 0) {
-                playTone(440, 500);
-            }
             setColors(); // Set the colors based on the current time
         }, 1000);
     </script>
