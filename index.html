@@ -146,8 +146,11 @@
         ctx.fill();
     }
     function formatCurrentTime(hours, minutes) {
-        var quarter = Math.ceil(minutes / 15);
-        return `${hours}`;
+        if (hours < 9) {
+            return "Press F1";
+        } else {
+            return `${hours}`;
+        }
     }
     function formatRemainingTime(seconds) {
         var minutes = Math.floor(seconds / 60);
