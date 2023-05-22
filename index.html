@@ -152,10 +152,12 @@
             return `${hours}`;
         }
     }
-    function formatRemainingTime(seconds) {
-        var minutes = Math.floor(seconds / 60);
-        var seconds = seconds % 60;
+    function formatRemainingTime() {
+        var now = new Date();
         if (now.getHours() >= 9) {
+            var countdown = calculateCountdown();
+            var minutes = Math.floor(countdown / 60);
+            var seconds = countdown % 60;
             return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
         else {
@@ -172,7 +174,7 @@
             diffSeconds = diffSeconds % 3600;
             var remainingMinutes = Math.floor(diffSeconds / 60);
             var remainingSeconds = diffSeconds % 60;
-            return `${remainingHours.toString().padStart(2, '0')}:${remainingMinutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+            return `${remainingHours.toString()}:${remainingMinutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
         }
     }
     function formatTime(seconds) {
