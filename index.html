@@ -160,15 +160,18 @@
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
     function playTone(frequency = 440, duration = 500) {
-        var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        var oscillator = audioContext.createOscillator();
-        oscillator.frequency.value = frequency;
-        oscillator.type = "square";
-        oscillator.connect(audioContext.destination);
-        oscillator.start();
-        setTimeout(function() {
-            oscillator.stop();
-        }, duration);
+        var now = new Date();
+        if (now.getHours() >= 9) {
+            var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            var oscillator = audioContext.createOscillator();
+            oscillator.frequency.value = frequency;
+            oscillator.type = "square";
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+            setTimeout(function() {
+                oscillator.stop();
+            }, duration);
+        }
     }
     function calculateCountdown() {
         var now = new Date();
