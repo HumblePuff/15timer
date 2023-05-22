@@ -59,7 +59,7 @@
             height: 0;
             border-left: 20px solid transparent;
             border-right: 20px solid transparent;
-            border-bottom: 20px solid white;
+            border-bottom: 20px solid rgb(113, 113, 113);
             margin-top: -25px;
             visibility: hidden;
             rotate: 180deg;
@@ -183,7 +183,8 @@
     function showArrow() {
         var now = new Date();
         var minutes = now.getMinutes();
-        var quarter = Math.ceil(minutes / 15);
+        var quarter = Math.floor(minutes / 15) + 1;  // changed to floor and added + 1 to show the upcoming quarter
+        if (quarter > 4) quarter = 1;  // reset to the first quarter if it's the end of the hour
         for (var i = 1; i <= 4; i++) {
             var arrow = document.getElementById('arrow-' + i);
             if (i === quarter) {
