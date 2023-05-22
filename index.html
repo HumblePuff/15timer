@@ -81,6 +81,15 @@
             ctx.fillStyle = 'black';
             ctx.fill();
         }
+        function formatCurrentTime(hours, minutes) {
+            var quarter = Math.ceil(minutes / 15);
+            return `${hours} : ${quarter}º`;
+        }
+        function formatRemainingTime(seconds) {
+            var minutes = Math.floor(seconds / 60);
+            var seconds = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
         function formatTime(seconds) {
             var minutes = Math.floor(seconds / 60);
             var seconds = seconds % 60;
@@ -108,14 +117,14 @@
             return countdown;
         }
         setInterval(function() {
-            countdown = calculateCountdown(); // recalculate countdown based on system time
+            countdown = calculateCountdown();
             endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60));
             drawCircle();
             drawCountdown();
             var now = new Date();
-            document.getElementById('current-time').textContent = formatTime(now.getHours() * 60 + now.getMinutes());
-            document.getElementById('remaining-time').textContent = formatTime(countdown);
-            setColors(); // Set the colors based on the current time
+            document.getElementById('current-time').textContent = formatCurrentTime(now.getHours(), now.getMinutes());
+            document.getElementById('remaining-time').textContent = formatRemainingTime(countdown);
+            setColors();
         }, 1000);
     </script>
 </body>
