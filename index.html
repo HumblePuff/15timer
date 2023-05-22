@@ -37,28 +37,61 @@
             width: 25vw;
             height: 5vw;
         }
-        .quarter-balls .ball:nth-child(1) {
+        .ball-container:nth-child(1) .ball {
             background-color: rgb(135, 0, 0);
         }
-        .quarter-balls .ball:nth-child(2) {
+        .ball-container:nth-child(2) .ball {
             background-color: rgb(0, 135, 0);
         }
-        .quarter-balls .ball:nth-child(3) {
+        .ball-container:nth-child(3) .ball {
             background-color: rgb(30,144,255);
         }
-        .quarter-balls .ball:nth-child(4) {
+        .ball-container:nth-child(4) .ball {
             background-color: rgb(186, 132, 0);
+        }
+        .ball-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .arrow {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 50px solid white;
+            margin-bottom: 0px;
+            visibility: hidden;
+            rotate: 180deg;
+        }
+        .arrow-show {
+            visibility: visible;
         }
     </style>
 </head>
 <body>
     <div class="clock-container">
         <div id="current-time"></div>
-        <div class="quarter-balls">
-            <div class="ball"></div>
-            <div class="ball"></div>
-            <div class="ball"></div>
-            <div class="ball"></div>
+        <div class="clock-container">
+            <div id="current-time"></div>
+            <div class="quarter-balls">
+                <div class="ball-container">
+                    <div class="arrow" id="arrow-1"></div>
+                    <div class="ball"></div>
+                </div>
+                <div class="ball-container">
+                    <div class="arrow" id="arrow-2"></div>
+                    <div class="ball"></div>
+                </div>
+                <div class="ball-container">
+                    <div class="arrow" id="arrow-3"></div>
+                    <div class="ball"></div>
+                </div>
+                <div class="ball-container">
+                    <div class="arrow" id="arrow-4"></div>
+                    <div class="ball"></div>
+                </div>
+            </div>
         </div>
     </div>
     <div id="current-time"></div>
@@ -147,11 +180,25 @@
         }
         return countdown;
     }
+    function showArrow() {
+        var now = new Date();
+        var minutes = now.getMinutes();
+        var quarter = Math.ceil(minutes / 15);
+        for (var i = 1; i <= 4; i++) {
+            var arrow = document.getElementById('arrow-' + i);
+            if (i === quarter) {
+                arrow.classList.add('arrow-show');
+            } else {
+                arrow.classList.remove('arrow-show');
+            }
+        }
+    }
     setInterval(function() {
         countdown = calculateCountdown();
         endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60));
         drawCircle();
         drawCountdown();
+        showArrow();
         var now = new Date();
         document.getElementById('current-time').textContent = formatCurrentTime(now.getHours(), now.getMinutes());
         document.getElementById('remaining-time').textContent = formatRemainingTime(countdown);
