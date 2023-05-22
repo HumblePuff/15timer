@@ -155,7 +155,25 @@
     function formatRemainingTime(seconds) {
         var minutes = Math.floor(seconds / 60);
         var seconds = seconds % 60;
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        if (now.getHours() >= 9) {
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        else {
+            var targetHour = 9;
+            var targetDate = new Date();
+            targetDate.setHours(targetHour, 0, 0, 0); // sets the target hour on the current day
+            if (now >= targetDate) {
+                // If the current time is past the target hour, sets the target hour to next day
+                targetDate.setDate(targetDate.getDate() + 1);
+            }
+            var diff = targetDate - now; // The difference in milliseconds
+            var diffSeconds = Math.round(diff / 1000); // Convert to seconds
+            var remainingHours = Math.floor(diffSeconds / 3600);
+            diffSeconds = diffSeconds % 3600;
+            var remainingMinutes = Math.floor(diffSeconds / 60);
+            var remainingSeconds = diffSeconds % 60;
+            return `${remainingHours.toString().padStart(2, '0')}:${remainingMinutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
     }
     function formatTime(seconds) {
         var minutes = Math.floor(seconds / 60);
