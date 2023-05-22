@@ -26,106 +26,137 @@
             font-size: 20vw;
             text-align: center;
         }
+        .quarter-balls {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            padding-top: 50px;
+        }
+        .quarter-balls .ball {
+            background-color: white;
+            width: 25vw;
+            height: 5vw;
+        }
+        .quarter-balls .ball:nth-child(1) {
+            background-color: rgb(135, 0, 0);
+        }
+        .quarter-balls .ball:nth-child(2) {
+            background-color: rgb(0, 135, 0);
+        }
+        .quarter-balls .ball:nth-child(3) {
+            background-color: rgb(30,144,255);
+        }
+        .quarter-balls .ball:nth-child(4) {
+            background-color: rgb(186, 132, 0);
+        }
     </style>
 </head>
 <body>
     <div class="clock-container">
         <div id="current-time"></div>
+        <div class="quarter-balls">
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+        </div>
     </div>
-    <canvas id="timer"></canvas>
-    <div class="clock-container">
-        <div id="remaining-time"></div>
-    </div>
-    <script>
-        function setColors() {
-            var now = new Date();
-            var minutes = now.getMinutes();
-            if (minutes >= 0 && minutes < 15){
-                document.body.style.color = "rgb(135, 0, 0)";
-                document.getElementById('timer').style.backgroundColor = "rgb(121, 0, 0)";
-            } else if (minutes >= 15 && minutes < 30) {
-                document.body.style.color = "rgb(0, 135, 0)";
-                document.getElementById('timer').style.backgroundColor = "rgb(0, 121, 0)";
-            } else if (minutes >= 30 && minutes < 45) {
-                document.body.style.color = "rgb(30,144,255)";
-                document.getElementById('timer').style.backgroundColor = "rgb(30,144,255)";
-            } else if (minutes >= 45 && minutes < 60) {
-                document.body.style.color = "RGB(186, 132, 0)";
-                document.getElementById('timer').style.backgroundColor = "RGB(186, 132, 0)";
-            }
-        }
+    <div id="current-time"></div>
+</div>
+<canvas id="timer"></canvas>
+<div class="clock-container">
+    <div id="remaining-time"></div>
+</div>
+<script>
+    function setColors() {
         var now = new Date();
         var minutes = now.getMinutes();
-        var countdown = ((15 - minutes % 15) * 60) - now.getSeconds();
-        var canvas = document.getElementById('timer');
-        var size = Math.min(window.innerWidth, window.innerHeight);
-        canvas.width = size;
-        canvas.height = size;
-        var ctx = canvas.getContext('2d');
-        var center = {x: canvas.width / 2, y: canvas.height / 2};
-        var radius = canvas.width / 2;
-        var startAngle = -0.5 * Math.PI;
-        var endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60));
-        function drawCircle() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.beginPath();
-            ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI);
-            ctx.strokeStyle = 'white';
-            ctx.lineWidth = 2;
-            ctx.stroke();
+        if (minutes >= 0 && minutes < 15){
+            document.body.style.color = "rgb(135, 0, 0)";
+            document.getElementById('timer').style.backgroundColor = "rgb(121, 0, 0)";
+        } else if (minutes >= 15 && minutes < 30) {
+            document.body.style.color = "rgb(0, 135, 0)";
+            document.getElementById('timer').style.backgroundColor = "rgb(0, 121, 0)";
+        } else if (minutes >= 30 && minutes < 45) {
+            document.body.style.color = "rgb(30,144,255)";
+            document.getElementById('timer').style.backgroundColor = "rgb(30,144,255)";
+        } else if (minutes >= 45 && minutes < 60) {
+            document.body.style.color = "RGB(186, 132, 0)";
+            document.getElementById('timer').style.backgroundColor = "RGB(186, 132, 0)";
         }
-        function drawCountdown() {
-            ctx.beginPath();
-            ctx.arc(center.x, center.y, radius, startAngle, endAngle, true);
-            ctx.lineTo(center.x, center.y);
-            ctx.fillStyle = 'black';
-            ctx.fill();
+    }
+    var now = new Date();
+    var minutes = now.getMinutes();
+    var countdown = ((15 - minutes % 15) * 60) - now.getSeconds();
+    var canvas = document.getElementById('timer');
+    var size = Math.min(window.innerWidth, window.innerHeight);
+    canvas.width = size;
+    canvas.height = size;
+    var ctx = canvas.getContext('2d');
+    var center = {x: canvas.width / 2, y: canvas.height / 2};
+    var radius = canvas.width / 2;
+    var startAngle = -0.5 * Math.PI;
+    var endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60));
+    function drawCircle() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI);
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    }
+    function drawCountdown() {
+        ctx.beginPath();
+        ctx.arc(center.x, center.y, radius, startAngle, endAngle, true);
+        ctx.lineTo(center.x, center.y);
+        ctx.fillStyle = 'black';
+        ctx.fill();
+    }
+    function formatCurrentTime(hours, minutes) {
+        var quarter = Math.ceil(minutes / 15);
+        return `${hours} : ${quarter}º`;
+    }
+    function formatRemainingTime(seconds) {
+        var minutes = Math.floor(seconds / 60);
+        var seconds = seconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+    function formatTime(seconds) {
+        var minutes = Math.floor(seconds / 60);
+        var seconds = seconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+    function playTone(frequency = 440, duration = 500) {
+        var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var oscillator = audioContext.createOscillator();
+        oscillator.frequency.value = frequency;
+        oscillator.type = "square";
+        oscillator.connect(audioContext.destination);
+        oscillator.start();
+        setTimeout(function() {
+            oscillator.stop();
+        }, duration);
+    }
+    function calculateCountdown() {
+        var now = new Date();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        var countdown = ((15 - (minutes % 15)) * 60) - seconds;
+        if (minutes % 15 == 0 && seconds == 0) {
+            playTone(440, 500);
         }
-        function formatCurrentTime(hours, minutes) {
-            var quarter = Math.ceil(minutes / 15);
-            return `${hours} : ${quarter}º`;
-        }
-        function formatRemainingTime(seconds) {
-            var minutes = Math.floor(seconds / 60);
-            var seconds = seconds % 60;
-            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-        function formatTime(seconds) {
-            var minutes = Math.floor(seconds / 60);
-            var seconds = seconds % 60;
-            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-        function playTone(frequency = 440, duration = 500) {
-            var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            var oscillator = audioContext.createOscillator();
-            oscillator.frequency.value = frequency;
-            oscillator.type = "square";
-            oscillator.connect(audioContext.destination);
-            oscillator.start();
-            setTimeout(function() {
-                oscillator.stop();
-            }, duration);
-        }
-        function calculateCountdown() {
-            var now = new Date();
-            var minutes = now.getMinutes();
-            var seconds = now.getSeconds();
-            var countdown = ((15 - (minutes % 15)) * 60) - seconds;
-            if (minutes % 15 == 0 && seconds == 0) {
-                playTone(440, 500);
-            }
-            return countdown;
-        }
-        setInterval(function() {
-            countdown = calculateCountdown();
-            endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60));
-            drawCircle();
-            drawCountdown();
-            var now = new Date();
-            document.getElementById('current-time').textContent = formatCurrentTime(now.getHours(), now.getMinutes());
-            document.getElementById('remaining-time').textContent = formatRemainingTime(countdown);
-            setColors();
-        }, 1000);
-    </script>
+        return countdown;
+    }
+    setInterval(function() {
+        countdown = calculateCountdown();
+        endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60));
+        drawCircle();
+        drawCountdown();
+        var now = new Date();
+        document.getElementById('current-time').textContent = formatCurrentTime(now.getHours(), now.getMinutes());
+        document.getElementById('remaining-time').textContent = formatRemainingTime(countdown);
+        setColors();
+    }, 1000);
+</script>
 </body>
 </html>
