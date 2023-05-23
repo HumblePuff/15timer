@@ -74,7 +74,17 @@
             bottom: calc(100vh - 50%);
             transform: translateX(-50%);
             width: 5px;
-            height: calc(50% - 30vw); /* Adjust this value to control the length of the line */
+            height: calc(50% - 30vw); /* Adjust this value to control the length of the vertical line */
+            background-color: #ffffff;
+            z-index: 9999;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            left: 0;
+            top: calc(30VW ); /* Adjust this value to control the position of the horizontal line */
+            width: 100vw;
+            height: 5px;
             background-color: #ffffff;
             z-index: 9999;
         }
