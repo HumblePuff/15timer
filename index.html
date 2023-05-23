@@ -67,6 +67,17 @@
         .arrow-show {
             visibility: visible;
         }
+        body::before {
+            content: "";
+            position: fixed;
+            left: 50%;
+            bottom: calc(100vh - 50%);
+            transform: translateX(-50%);
+            width: 5px;
+            height: calc(50% - 30vw); /* Adjust this value to control the length of the line */
+            background-color: #ffffff;
+            z-index: 9999;
+        }
     </style>
 </head>
 <body>
