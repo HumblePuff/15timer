@@ -94,7 +94,7 @@
     <div class="clock-container">
         <div id="current-time"></div>
         <div class="clock-container">
-            <div id="current-time">${formatCurrentTime(now.getHours(), now.getMinutes())}</div>
+            <div id="current-time"></div>
             <div class="quarter-balls">
                 <div class="ball-container">
                     <div class="arrow" id="arrow-1"></div>
@@ -168,7 +168,7 @@
     }
     function formatCurrentTime(hours, minutes) {
         if (hours < 9) {
-            return '<span style="font-size: 10vw;">moldeira</span>';
+            return "F1";
         } else {
             return `${hours}`;
         }
