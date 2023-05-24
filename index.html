@@ -95,7 +95,7 @@
         <div id="current-time"></div>
         <div class="clock-container">
             <div id="current-time"></div>
-            <div class="quarter-balls">
+            <div class="quarter-balls" id="quarter-balls">
                 <div class="ball-container">
                     <div class="arrow" id="arrow-1"></div>
                     <div class="ball"></div>
@@ -167,9 +167,12 @@
         ctx.fill();
     }
     function formatCurrentTime(hours, minutes) {
+        var quarterBalls = document.getElementById('quarter-balls');
         if (hours < 9) {
+            quarterBalls.style.display = 'none';
             return "moldeir";
         } else {
+            quarterBalls.style.display = 'flex';
             return `${hours}`;
         }
     }
