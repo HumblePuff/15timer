@@ -170,9 +170,11 @@
         var quarterBalls = document.getElementById('quarter-balls');
         if (hours < 9) {
             quarterBalls.style.display = 'none';
+            timer.style.display = 'none';
             return "moldeir";
         } else {
             quarterBalls.style.display = 'flex';
+            timer.style.display = 'flex';
             return `${hours}`;
         }
     }
