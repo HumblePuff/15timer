@@ -14,12 +14,6 @@
             color: rgb(135, 0, 0);
             cursor: pointer;
         }
-        .clock-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: calc((100vh - 100vmin) / 2);
-        }
         #current-time, #remaining-time {
             font-size: 20vw;
             text-align: center;
@@ -34,7 +28,7 @@
         #input {
             width: 80vw;
             color:white;
-            height: 30vh;
+            height: 50vh;
             font-size: 5vw;
             transition: background 1s ease-in-out;
         }
@@ -49,7 +43,6 @@
         <textarea id="input"></textarea>
     </div>
     <div class="clock-container">
-        <div id="remaining-time"></div>
     </div>
     <script>
         function formatCurrentTime(hours, minutes) {
@@ -79,7 +72,6 @@
                 document.getElementById('display-text').textContent = text.substring(firstTimeIndex+2, secondTimeIndex);
             }
             document.getElementById('current-time').textContent = formatCurrentTime(now.getHours(), now.getMinutes());
-            document.getElementById('remaining-time').textContent = formatRemainingTime(minutesRemaining, secondsRemaining);
             var totalSecondsRemaining = minutesRemaining * 60 + secondsRemaining;
             var progress = (15 * 60 - totalSecondsRemaining) / (15 * 60);
             document.getElementById('input').style.background = `linear-gradient(to right, rgb(100, 0, 0, .5) ${progress * 100}%, #000 ${progress * 100}%)`;
@@ -111,7 +103,6 @@
             }
         }
         function deleteOldNotes() {
-            return;
             var now = new Date();
             var currentHours = now.getHours();
             var currentMinutes = now.getMinutes();
