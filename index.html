@@ -265,8 +265,11 @@
         document.getElementById('remaining-time').textContent = formatRemainingTime(countdown);
         setColors();
         var checkbox = document.getElementById('customCheckbox'); // Define the checkbox here.
-        if (now.getHours() > 8) {
-            checkbox.checked = false;
+        if (now.getHours() < 9) {
+            checkbox.style.display = "block";  // Make checkbox visible
+        } else {
+            checkbox.style.display = "none";  // Hide checkbox
+            checkbox.checked = false; // Uncheck the checkbox
         }
     }, 1000);
 </script>
