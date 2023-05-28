@@ -16,6 +16,35 @@
             background-color: rgb(121, 0, 0);
             border-radius: 50%;
         }
+        #customCheckbox {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20vw; /* You can adjust this as per your requirement */
+            width: 20vw;  /* Keep width and height same for a square checkbox */
+            visibility: hidden; /* Hide the original checkbox */
+        }
+        /* Custom checkbox appearance */
+        #customCheckbox + label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 20vw;
+            height: 20vw;
+            background-color: black;
+            border: 1px solid #ffffff; /* You can remove or change this border color as per your requirement */
+        }
+        /* Check mark style */
+        #customCheckbox:checked + label::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10vw;
+            height: 10vw;
+            background-color: white; /* Check mark color */
+            transform: translate(-50%, -50%);
+        }
         .clock-container {
             display: flex;
             flex-direction: column;
@@ -91,6 +120,8 @@
     </style>
 </head>
 <body>
+    <input type="checkbox" id="customCheckbox">
+    <label for="customCheckbox"></label>
     <div class="clock-container">
         <div id="current-time"></div>
         <div class="clock-container">
@@ -186,7 +217,8 @@
     }
     function playTone(frequency = 440, duration = 500) {
         var now = new Date();
-        if (now.getHours() >= 9) {
+        var checkbox = document.getElementById('customCheckbox');
+        if (now.getHours() >= 9 || checkbox.checked) {
             var audioContext = new (window.AudioContext || window.webkitAudioContext)();
             var oscillator = audioContext.createOscillator();
             oscillator.frequency.value = frequency;
@@ -232,6 +264,10 @@
         document.getElementById('current-time').textContent = formatCurrentTime(now.getHours(), now.getMinutes());
         document.getElementById('remaining-time').textContent = formatRemainingTime(countdown);
         setColors();
+        var checkbox = document.getElementById('customCheckbox'); // Define the checkbox here.
+        if (now.getHours() > 8) {
+            checkbox.checked = false;
+        }
     }, 1000);
 </script>
 </body>
