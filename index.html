@@ -153,26 +153,40 @@
             return formatCurrentTime(hours, minutes);
         }
         document.getElementById('input').addEventListener('input', autoSave);
-        autoRetrieve();
-        var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
-        recognition.lang = 'en-US';
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 5;
-        recognition.onresult = function(event) {
-            var speechResult = event.results[0][0].transcript;
-            var maxLength = 50;
-            var formattedEndTime = calculateEndTime();
-            var lastNote = document.getElementById('input').value.split('\n').pop();
-            if (lastNote.startsWith('(' + formattedEndTime + ')')) {
-                formattedEndTime = calculateEndTime(true);
-            }
-            speechResult = '(' + formattedEndTime + ')  ' + speechResult;
-            if (speechResult.length > maxLength) {
-                speechResult = speechResult.substring(0, maxLength - 3) + '...';
-            }
-            document.getElementById('input').value += '\n' + speechResult;
-            autoSave();
-        };
-    </script>
+autoRetrieve();
+var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+recognition.lang = 'en-US';
+recognition.interimResults = false;
+recognition.maxAlternatives = 5;
+recognition.onresult = function(event) {
+    var speechResult = event.results[0][0].transcript;
+    var maxLength = 50;
+    var formattedEndTime = calculateEndTime();
+    var lastNote = document.getElementById('input').value.split('\n').pop();
+    if (lastNote.startsWith('(' + formattedEndTime + ')')) {
+        formattedEndTime = calculateEndTime(true);
+    }
+    speechResult = '(' + formattedEndTime + ')  ' + speechResult;
+    if (speechResult.length > maxLength) {
+        speechResult = speechResult.substring(0, maxLength - 3) + '...';
+    }
+    document.getElementById('input').value += '\n' + speechResult;
+    autoSave();
+    document.getElementById('input').readOnly = false;
+};
+
+recognition.onnomatch = function() {
+    document.getElementById('input').readOnly = false;
+};
+
+recognition.onerror = function() {
+    document.getElementById('input').readOnly = false;
+};
+
+document.body.addEventListener('click', function() {
+    document.getElementById('input').readOnly = true;
+    recognition.start();
+});
+</script>
 </body>
 </html>
