@@ -84,6 +84,9 @@
             var progress = (15 * 60 - totalSecondsRemaining) / (15 * 60);
             document.getElementById('input').style.background = `linear-gradient(to right, green ${progress * 100}%, #000 ${progress * 100}%)`;
             deleteOldNotes();
+            if (now.getMinutes() % 15 == 0 && now.getSeconds() == 0) {
+                playTone(440, 500);
+            }
         }, 1000);
         function autoSave() {
             localStorage.setItem('notepad_text', document.getElementById('input').value);
@@ -91,6 +94,20 @@
         function autoRetrieve() {
             if (localStorage.getItem('notepad_text')) {
                 document.getElementById('input').value = localStorage.getItem('notepad_text');
+            }
+        }
+        function playTone(frequency = 440, duration = 500) {
+            var now = new Date();
+            if (now.getHours() >= 9) {
+                var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                var oscillator = audioContext.createOscillator();
+                oscillator.frequency.value = frequency;
+                oscillator.type = "square";
+                oscillator.connect(audioContext.destination);
+                oscillator.start();
+                setTimeout(function() {
+                    oscillator.stop();
+                }, duration);
             }
         }
         function deleteOldNotes() {
