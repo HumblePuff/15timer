@@ -82,7 +82,7 @@
             document.getElementById('remaining-time').textContent = formatRemainingTime(minutesRemaining, secondsRemaining);
             var totalSecondsRemaining = minutesRemaining * 60 + secondsRemaining;
             var progress = (15 * 60 - totalSecondsRemaining) / (15 * 60);
-            document.getElementById('input').style.background = `linear-gradient(to right, green ${progress * 100}%, #000 ${progress * 100}%)`;
+            document.getElementById('input').style.background = `linear-gradient(to right, rgb(100, 0, 0, .5) ${progress * 100}%, #000 ${progress * 100}%)`;
             deleteOldNotes();
             if (now.getMinutes() % 15 == 0 && now.getSeconds() == 0) {
                 playTone(440, 500);
