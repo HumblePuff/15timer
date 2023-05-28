@@ -12,6 +12,7 @@
             margin: 0;
             padding: 0;
             color: rgb(135, 0, 0);
+            cursor: pointer;
         }
         .clock-container {
             display: flex;
@@ -34,14 +35,8 @@
             width: 80vw;
             color:white;
             height: 30vh;
-            font-size: 4vw;
+            font-size: 5vw;
             transition: background 1s ease-in-out;
-        }
-        #btn-voice {
-            margin-top: 1em;
-            height: 5vh;
-            width: 80vw;
-            font-size: 4vw;
         }
     </style>
 </head>
@@ -52,25 +47,11 @@
     <div id="input-container">
         <div id="display-text" style="font-size: 13vw; margin-bottom: 1em;"></div>
         <textarea id="input"></textarea>
-        <button id="btn-voice">Voice Input</button>
     </div>
     <div class="clock-container">
         <div id="remaining-time"></div>
     </div>
     <script>
-        function setColors() {
-            var now = new Date();
-            var minutes = now.getMinutes();
-            if (minutes >= 0 && minutes < 15){
-                document.body.style.color = "rgb(135, 0, 0)";
-            } else if (minutes >= 15 && minutes < 30) {
-                document.body.style.color = "rgb(0, 135, 0)";
-            } else if (minutes >= 30 && minutes < 45) {
-                document.body.style.color = "rgb(30,144,255)";
-            } else if (minutes >= 45 && minutes < 60) {
-                document.body.style.color = "RGB(186, 132, 0)";
-            }
-        }
         function formatCurrentTime(hours, minutes) {
             return `${hours}:${minutes.toString().padStart(2, '0')}`;
         }
@@ -99,7 +80,6 @@
             }
             document.getElementById('current-time').textContent = formatCurrentTime(now.getHours(), now.getMinutes());
             document.getElementById('remaining-time').textContent = formatRemainingTime(minutesRemaining, secondsRemaining);
-            setColors();
             var totalSecondsRemaining = minutesRemaining * 60 + secondsRemaining;
             var progress = (15 * 60 - totalSecondsRemaining) / (15 * 60);
             document.getElementById('input').style.background = `linear-gradient(to right, green ${progress * 100}%, #000 ${progress * 100}%)`;
@@ -136,6 +116,9 @@
             document.getElementById('input').value = notes.join('\n');
             autoSave();
         }
+        document.body.addEventListener('click', function(){
+            recognition.start();
+        });
         function calculateEndTime() {
             var lastNote = document.getElementById('input').value.split('\n').pop();
             var hours, minutes;
@@ -162,14 +145,10 @@
         }
         document.getElementById('input').addEventListener('input', autoSave);
         autoRetrieve();
-        var btnVoice = document.getElementById('btn-voice');
         var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
         recognition.lang = 'en-US';
         recognition.interimResults = false;
         recognition.maxAlternatives = 5;
-        btnVoice.addEventListener('click', function(){
-            recognition.start();
-        });
         recognition.onresult = function(event) {
             var speechResult = event.results[0][0].transcript;
             var maxLength = 50;
@@ -178,7 +157,7 @@
             if (lastNote.startsWith('(' + formattedEndTime + ')')) {
                 formattedEndTime = calculateEndTime(true);
             }
-            speechResult = '(' + formattedEndTime + ') ' + speechResult;
+            speechResult = '(' + formattedEndTime + ')  ' + speechResult;
             if (speechResult.length > maxLength) {
                 speechResult = speechResult.substring(0, maxLength - 3) + '...';
             }
