@@ -12,39 +12,6 @@
             padding: 0;
             color: rgb(135, 0, 0);
         }
-        #timer {
-            background-color: rgb(121, 0, 0);
-            border-radius: 50%;
-        }
-        #customCheckbox {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 20vw; /* You can adjust this as per your requirement */
-            width: 20vw;  /* Keep width and height same for a square checkbox */
-            visibility: hidden; /* Hide the original checkbox */
-        }
-        /* Custom checkbox appearance */
-        #customCheckbox + label {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 20vw;
-            height: 20vw;
-            background-color: black;
-            border: 1px solid #ffffff; /* You can remove or change this border color as per your requirement */
-        }
-        /* Check mark style */
-        #customCheckbox:checked + label::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 10vw;
-            height: 10vw;
-            background-color: white; /* Check mark color */
-            transform: translate(-50%, -50%);
-        }
         .clock-container {
             display: flex;
             flex-direction: column;
@@ -55,223 +22,169 @@
             font-size: 20vw;
             text-align: center;
         }
-        .quarter-balls {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            padding-top: 50px;
-        }
-        .quarter-balls .ball {
-            background-color: white;
-            width: 25vw;
-            height: 5vw;
-        }
-        .ball-container:nth-child(1) .ball {
-            background-color: rgb(135, 0, 0);
-        }
-        .ball-container:nth-child(2) .ball {
-            background-color: rgb(0, 135, 0);
-        }
-        .ball-container:nth-child(3) .ball {
-            background-color: rgb(30,144,255);
-        }
-        .ball-container:nth-child(4) .ball {
-            background-color: rgb(186, 132, 0);
-        }
-        .ball-container {
+        #input-container {
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
+            height: 50vh;
         }
-        .arrow {
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-bottom: 20px solid #ffffff;
-            margin-top: -25px;
-            visibility: hidden;
-            rotate: 180deg;
+        #input {
+            width: 80vw;
+            height: 50vh;
+            color: rgb(135, 0, 0);
+            font-size: 5em;
+            transition: background 1s ease-in-out;
         }
-        .arrow-show {
-            visibility: visible;
-        }
-        body::before {
-            content: "";
-            position: fixed;
-            left: 50%;
-            bottom: calc(100vh - 50%);
-            transform: translateX(-50%);
-            width: 5px;
-            height: calc(50% - 30vw); /* Adjust this value to control the length of the vertical line */
-            background-color: #ffffff;
-            z-index: 9999;
-        }
-        body::after {
-            content: "";
-            position: fixed;
-            left: 0;
-            top: calc(30VW ); /* Adjust this value to control the position of the horizontal line */
-            width: 100vw;
-            height: 5px;
-            background-color: #ffffff;
-            z-index: 9999;
+        #btn-voice {
+            margin-top: 1em;
+            color: rgb(135, 0, 0);
+            height: 5vh;
+            width: 80vw;
+            font-size: 5em;
         }
     </style>
 </head>
 <body>
-    <input type="checkbox" id="customCheckbox">
-    <label for="customCheckbox"></label>
     <div class="clock-container">
         <div id="current-time"></div>
-        <div class="clock-container">
-            <div id="current-time"></div>
-            <div class="quarter-balls" id="quarter-balls">
-                <div class="ball-container">
-                    <div class="arrow" id="arrow-1"></div>
-                    <div class="ball"></div>
-                </div>
-                <div class="ball-container">
-                    <div class="arrow" id="arrow-2"></div>
-                    <div class="ball"></div>
-                </div>
-                <div class="ball-container">
-                    <div class="arrow" id="arrow-3"></div>
-                    <div class="ball"></div>
-                </div>
-                <div class="ball-container">
-                    <div class="arrow" id="arrow-4"></div>
-                    <div class="ball"></div>
-                </div>
-            </div>
-        </div>
     </div>
-    <div id="current-time"></div>
-</div>
-<canvas id="timer"></canvas>
-<div class="clock-container">
-    <div id="remaining-time"></div>
-</div>
-<script>
-    function setColors() {
-        var now = new Date();
-        var minutes = now.getMinutes();
-        if (minutes >= 0 && minutes < 15){
-            document.body.style.color = "rgb(135, 0, 0)";
-            document.getElementById('timer').style.backgroundColor = "rgb(121, 0, 0)";
-        } else if (minutes >= 15 && minutes < 30) {
-            document.body.style.color = "rgb(0, 135, 0)";
-            document.getElementById('timer').style.backgroundColor = "rgb(0, 121, 0)";
-        } else if (minutes >= 30 && minutes < 45) {
-            document.body.style.color = "rgb(30,144,255)";
-            document.getElementById('timer').style.backgroundColor = "rgb(30,144,255)";
-        } else if (minutes >= 45 && minutes < 60) {
-            document.body.style.color = "RGB(186, 132, 0)";
-            document.getElementById('timer').style.backgroundColor = "RGB(186, 132, 0)";
-        }
-    }
-    var now = new Date();
-    var minutes = now.getMinutes();
-    var countdown = ((15 - minutes % 15) * 60) - now.getSeconds();
-    var canvas = document.getElementById('timer');
-    var size = Math.min(window.innerWidth, window.innerHeight);
-    canvas.width = size;
-    canvas.height = size;
-    var ctx = canvas.getContext('2d');
-    var center = {x: canvas.width / 2, y: canvas.height / 2};
-    var radius = canvas.width / 2;
-    var startAngle = -0.5 * Math.PI;
-    var endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60));
-    function drawCircle() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.beginPath();
-        ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI);
-        ctx.strokeStyle = 'white';
-        ctx.lineWidth = 5;
-        ctx.stroke();
-    }
-    function drawCountdown() {
-        ctx.beginPath();
-        ctx.arc(center.x, center.y, radius, startAngle, endAngle, true);
-        ctx.lineTo(center.x, center.y);
-        ctx.fillStyle = 'black';
-        ctx.fill();
-    }
-    function formatCurrentTime(hours, minutes) {
-        var quarterBalls = document.getElementById('quarter-balls');
-        quarterBalls.style.display = 'flex';
-        timer.style.display = 'flex';
-        return `${hours}`;
-    }
-    function formatRemainingTime() {
-        var now = new Date();
-        var countdown = calculateCountdown();
-        var minutes = Math.floor(countdown / 60);
-        var seconds = countdown % 60;
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-    function formatTime(seconds) {
-        var minutes = Math.floor(seconds / 60);
-        var seconds = seconds % 60;
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-    function playTone(frequency = 440, duration = 500) {
-        var now = new Date();
-        var checkbox = document.getElementById('customCheckbox');
-        if (now.getHours() >= 9 || checkbox.checked) {
-            var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            var oscillator = audioContext.createOscillator();
-            oscillator.frequency.value = frequency;
-            oscillator.type = "square";
-            oscillator.connect(audioContext.destination);
-            oscillator.start();
-            setTimeout(function() {
-                oscillator.stop();
-            }, duration);
-        }
-    }
-    function calculateCountdown() {
-        var now = new Date();
-        var minutes = now.getMinutes();
-        var seconds = now.getSeconds();
-        var countdown = ((15 - (minutes % 15)) * 60) - seconds;
-        if (minutes % 15 == 0 && seconds == 0) {
-            playTone(440, 500);
-        }
-        return countdown;
-    }
-    function showArrow() {
-        var now = new Date();
-        var minutes = now.getMinutes();
-        var quarter = Math.floor(minutes / 15) + 1;  // changed to floor and added + 1 to show the upcoming quarter
-        if (quarter > 4) quarter = 1;  // reset to the first quarter if it's the end of the hour
-        for (var i = 1; i <= 4; i++) {
-            var arrow = document.getElementById('arrow-' + i);
-            if (i === quarter) {
-                arrow.classList.add('arrow-show');
-            } else {
-                arrow.classList.remove('arrow-show');
+    <div id="input-container">
+        <div id="display-text" style="font-size: 9em; margin-bottom: 1em;"></div>
+        <textarea id="input"></textarea>
+        <button id="btn-voice">Voice Input</button>
+    </div>
+    <div class="clock-container">
+        <div id="remaining-time"></div>
+    </div>
+    <script>
+        function setColors() {
+            var now = new Date();
+            var minutes = now.getMinutes();
+            if (minutes >= 0 && minutes < 15){
+                document.body.style.color = "rgb(135, 0, 0)";
+            } else if (minutes >= 15 && minutes < 30) {
+                document.body.style.color = "rgb(0, 135, 0)";
+            } else if (minutes >= 30 && minutes < 45) {
+                document.body.style.color = "rgb(30,144,255)";
+            } else if (minutes >= 45 && minutes < 60) {
+                document.body.style.color = "RGB(186, 132, 0)";
             }
         }
-    }
-    setInterval(function() {
-        countdown = calculateCountdown();
-        endAngle = startAngle - 2 * Math.PI * ((15*60 - countdown) / (15*60));
-        drawCircle();
-        drawCountdown();
-        showArrow();
-        var now = new Date();
-        document.getElementById('current-time').textContent = formatCurrentTime(now.getHours(), now.getMinutes());
-        document.getElementById('remaining-time').textContent = formatRemainingTime(countdown);
-        setColors();
-        var checkbox = document.getElementById('customCheckbox'); // Define the checkbox here.
-        if (now.getHours() < 9) {
-            checkbox.style.display = "block";  // Make checkbox visible
-        } else {
-            checkbox.style.display = "none";  // Hide checkbox
-            checkbox.checked = false; // Uncheck the checkbox
+        function formatCurrentTime(hours, minutes) {
+            return `${hours}:${minutes.toString().padStart(2, '0')}`;
         }
-    }, 1000);
-</script>
+        function formatRemainingTime(minutes, seconds) {
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        function calculateCountdown() {
+            var now = new Date();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            var countdown = ((15 - (minutes % 15)) * 60) - seconds;
+            return countdown;
+        }
+        setInterval(function() {
+            var now = new Date();
+            var countdown = calculateCountdown();
+            var minutesRemaining = Math.floor(countdown / 60);
+            var secondsRemaining = countdown % 60;
+            var text = document.getElementById('input').value;
+            var firstTimeIndex = text.indexOf(')');
+            var secondTimeIndex = text.indexOf('(', firstTimeIndex + 1);
+            if (secondTimeIndex === -1) {
+                document.getElementById('display-text').textContent = text.substring(firstTimeIndex);
+            } else {
+                document.getElementById('display-text').textContent = text.substring(firstTimeIndex+2, secondTimeIndex);
+            }
+            document.getElementById('current-time').textContent = formatCurrentTime(now.getHours(), now.getMinutes());
+            document.getElementById('remaining-time').textContent = formatRemainingTime(minutesRemaining, secondsRemaining);
+            setColors();
+            var totalSecondsRemaining = minutesRemaining * 60 + secondsRemaining;
+            var progress = (15 * 60 - totalSecondsRemaining) / (15 * 60);
+            document.getElementById('input').style.background = `linear-gradient(to right, green ${progress * 100}%, #000 ${progress * 100}%)`;
+            deleteOldNotes();
+        }, 1000);
+        function autoSave() {
+            localStorage.setItem('notepad_text', document.getElementById('input').value);
+        }
+        function autoRetrieve() {
+            if (localStorage.getItem('notepad_text')) {
+                document.getElementById('input').value = localStorage.getItem('notepad_text');
+            }
+        }
+        function deleteOldNotes() {
+            var now = new Date();
+            var currentHours = now.getHours();
+            var currentMinutes = now.getMinutes();
+            var notes = document.getElementById('input').value.split('\n');
+            var index = 0;
+            for (var note of notes) {
+                var noteTime = note.match(/\(([^)]+)\)/);
+                if (noteTime) {
+                    var [hours, minutes] = noteTime[1].split(':').map(Number);
+                    if (hours < currentHours || (hours === currentHours && minutes <= currentMinutes)) {
+                        index += 1;
+                    } else {
+                        break;
+                    }
+                } else {
+                    index += 1;
+                }
+            }
+            notes.splice(0, index);
+            document.getElementById('input').value = notes.join('\n');
+            autoSave();
+        }
+        function calculateEndTime() {
+            var lastNote = document.getElementById('input').value.split('\n').pop();
+            var hours, minutes;
+            if (lastNote.length > 0) {
+                var lastEndTime = lastNote.match(/\(([^)]+)\)/)[1];
+                [hours, minutes] = lastEndTime.split(':').map(Number);
+                if (minutes === 45) {
+                    minutes = 0;
+                    hours = (hours + 1) % 24;
+                } else {
+                    minutes += 15;
+                }
+            } else {
+                var now = new Date();
+                hours = now.getHours();
+                minutes = now.getMinutes();
+                var remainingMinutes = 15 - (minutes % 15);
+                minutes = (minutes + remainingMinutes) % 60;
+                if (remainingMinutes + minutes >= 60) {
+                    hours = (hours + 1) % 24;
+                }
+            }
+            return formatCurrentTime(hours, minutes);
+        }
+        document.getElementById('input').addEventListener('input', autoSave);
+        autoRetrieve();
+        var btnVoice = document.getElementById('btn-voice');
+        var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 5;
+        btnVoice.addEventListener('click', function(){
+            recognition.start();
+        });
+        recognition.onresult = function(event) {
+            var speechResult = event.results[0][0].transcript;
+            var maxLength = 50;
+            var formattedEndTime = calculateEndTime();
+            var lastNote = document.getElementById('input').value.split('\n').pop();
+            if (lastNote.startsWith('(' + formattedEndTime + ')')) {
+                formattedEndTime = calculateEndTime(true);
+            }
+            speechResult = '(' + formattedEndTime + ') ' + speechResult;
+            if (speechResult.length > maxLength) {
+                speechResult = speechResult.substring(0, maxLength - 3) + '...';
+            }
+            document.getElementById('input').value += '\n' + speechResult;
+            autoSave();
+        };
+    </script>
 </body>
 </html>
