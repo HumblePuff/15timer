@@ -32,6 +32,7 @@
         }
         #input {
             width: 80vw;
+            color:white;
             height: 30vh;
             font-size: 4vw;
             transition: background 1s ease-in-out;
@@ -92,7 +93,7 @@
             var firstTimeIndex = text.indexOf(')');
             var secondTimeIndex = text.indexOf('(', firstTimeIndex + 1);
             if (secondTimeIndex === -1) {
-                document.getElementById('display-text').textContent = text.substring(firstTimeIndex);
+                document.getElementById('display-text').textContent = text.substring(firstTimeIndex+2);
             } else {
                 document.getElementById('display-text').textContent = text.substring(firstTimeIndex+2, secondTimeIndex);
             }
