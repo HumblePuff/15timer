@@ -102,6 +102,9 @@
                 if (lines.length > 1) {
                     lines.splice(0, 1); // Remove the first line
                 }
+                if (lines.length = 1) {
+                    return;
+                }
                 var modifiedText = lines.join('\n');
                 document.getElementById('input').value = modifiedText;
             }
