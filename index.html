@@ -97,7 +97,13 @@
         }
         function autoRetrieve() {
             if (localStorage.getItem('notepad_text')) {
-                document.getElementById('input').value = localStorage.getItem('notepad_text');
+                var savedText = localStorage.getItem('notepad_text');
+                var lines = savedText.split('\n');
+                if (lines.length > 1) {
+                    lines.splice(0, 1); // Remove the first line
+                }
+                var modifiedText = lines.join('\n');
+                document.getElementById('input').value = modifiedText;
             }
         }
         function playTone(frequency = 440, duration = 500) {
