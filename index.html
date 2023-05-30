@@ -50,7 +50,7 @@
         }
         #display-text {
             position: absolute;
-            top: 20vh;
+            top: 13vh;
             left: 0;
             width: 100%;
             height: 100%;
@@ -130,6 +130,7 @@
         }
         function deleteOldNotes() {
             var now = new Date();
+            var fourHoursLater = new Date(now.getTime() + 4*60*60*1000);
             var notes = document.getElementById('input').value.split('\n');
             var index = 0;
             for (var note of notes) {
@@ -138,7 +139,7 @@
                     var [hours, minutes] = noteTime[1].split(':').map(Number);
                     var noteDate = new Date();
                     noteDate.setHours(hours, minutes, 0, 0);
-                    if (noteDate <= now) {
+                    if (noteDate <= now || noteDate >= fourHoursLater) {
                         index += 1;
                     } else {
                         break;
