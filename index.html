@@ -49,6 +49,17 @@
             caret-color: transparent;
             background: black;
         }
+        #last-line {
+            width: 80vw;
+            top: 0vh;
+            color:rgb(167, 167, 167);
+            height: 2vh;
+            font-size: 5vw;
+            transition: background 1s ease-in-out;
+            position: absolute;
+            caret-color: transparent;
+            background: black;
+        }
         #display-text {
             position: absolute;
             top: 13vh;
@@ -63,6 +74,7 @@
 </head>
 <body>
     <div class="overlay"></div>
+    <div id="last-line"></div>
     <div class="clock-container">
         <div id="current-time"></div>
     </div>
@@ -135,6 +147,7 @@
             var fourHoursLater = new Date(now.getTime() + 4*60*60*1000);
             var notes = document.getElementById('input').value.split('\n');
             var index = 0;
+            var lastRemovedNote = ''; // new variable to hold the last removed note
             for (var note of notes) {
                 var noteTime = note.match(/\(([^)]+)\)/);
                 if (noteTime) {
@@ -143,15 +156,20 @@
                     noteDate.setHours(hours, minutes, 0, 0);
                     if (noteDate <= now || noteDate >= fourHoursLater) {
                         index += 1;
+                        lastRemovedNote = note; // update the last removed note
                     } else {
                         break;
                     }
                 } else {
                     index += 1;
+                    lastRemovedNote = note; // update the last removed note
                 }
             }
             notes.splice(0, index);
             document.getElementById('input').value = notes.join('\n');
+            if (notes.length > 1) {
+                document.getElementById('last-line').textContent = lastRemovedNote;
+            }
             autoSave();
         }
         document.body.addEventListener('click', function(){
