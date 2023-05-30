@@ -213,6 +213,9 @@
             document.getElementById('input').readOnly = true;
             recognition.start();
         });
+        window.addEventListener('unload', function(event) {
+            localStorage.clear();
+        });
     </script>
 </body>
 </html>
