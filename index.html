@@ -231,14 +231,6 @@
             document.getElementById('input').readOnly = true;
             recognition.start();
         });
-        window.addEventListener('unload', function(event) {
-            var notes = localStorage.getItem('notepad_text');
-            if (notes) {
-                var notesArray = notes.split('\n');
-                notesArray.pop(); // Remove the last note
-                localStorage.setItem('notepad_text', notesArray.join('\n'));
-            }
-        });
     </script>
 </body>
 </html>
