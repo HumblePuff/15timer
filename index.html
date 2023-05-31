@@ -233,12 +233,10 @@
             document.getElementById('input').readOnly = false;
         };
         document.body.addEventListener('click', function() {
+            localStorage.clear();
             document.getElementById('input').readOnly = true;
             recognition.start();
         });
-        window.onload = function() {
-            localStorage.clear();
-        };
     </script>
 </body>
 </html>
