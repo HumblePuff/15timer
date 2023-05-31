@@ -22,11 +22,16 @@ body {
 }
 #current-time,
 #remaining-time {
-    margin-top: 3vh;
-    font-size: 20vw;
-    text-align: center;
-    color: rgb(100, 0, 0);
-    /* color: rgb(0, 100, 100); */
+    width: 80vw;
+    top: 0vh;
+    left: 80%;
+    color: rgb(0, 100, 100, 0.5);
+    height: 2vh;
+    font-size: 5vw;
+    transition: background 1s ease-in-out;
+    position: absolute;
+    caret-color: transparent;
+    background: black;
 }
 #input-container {
     display: flex;
@@ -49,7 +54,7 @@ body {
 #last-line {
     width: 80vw;
     top: 0vh;
-    left: 80%;
+    left: 20%;
     color: rgb(0, 100, 100, 0.5);
     height: 2vh;
     font-size: 5vw;
