@@ -179,7 +179,7 @@
                             index += 1;
                             var noteParts = note.split(') ');
                             if (noteParts.length > 1) {
-                                lastRemovedNote = noteParts[1]; // Removed parenthesis here
+                                lastRemovedNote = noteTime[0];
                                 displayText = noteParts[1];
                             }
                         } else {
@@ -192,6 +192,7 @@
                 notes.splice(0, index);
                 document.getElementById("input").value = notes.join("\n");
                 if (lastRemovedNote.length > 1) {
+                    lastRemovedNote = lastRemovedNote.replace(/[()]/g, "");
                     document.getElementById("last-line").textContent = lastRemovedNote;
                     localStorage.setItem("last_removed_note", lastRemovedNote);
                 }
