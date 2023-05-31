@@ -53,7 +53,9 @@ body {
     border: black;
 }
 #input {
-    width: 180vw;
+    /* width: 80vw; */
+    overflow: hidden;
+    overflow-y: hidden;
     top: 45vh;
     left: -10vh;
     color: rgb(167, 167, 167, 0.5);
