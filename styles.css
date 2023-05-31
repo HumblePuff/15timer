@@ -54,10 +54,12 @@ body {
 }
 #input {
     width: 100vw;
+    margin-left: 300px;
     top: 45vh;
     color: rgb(167, 167, 167, 0.5);
     height: 50vh;
     font-size: 5vw;
+    text-indent: -220px;
     transition: background 1s ease-in-out;
     position: absolute;
     caret-color: transparent;
