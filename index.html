@@ -95,7 +95,7 @@
             var now = new Date();
             var minutes = now.getMinutes();
             var seconds = now.getSeconds();
-            var countdown = ((15 - (minutes % 15)) * 60) - seconds;
+            var countdown = ((10 - (minutes % 10)) * 60) - seconds;
             return countdown;
         }
         setInterval(function() {
@@ -113,10 +113,10 @@
             }
             document.getElementById('current-time').textContent = formatCurrentTime(now.getHours(), now.getMinutes());
             var totalSecondsRemaining = minutesRemaining * 60 + secondsRemaining;
-            var progress = (15 * 60 - totalSecondsRemaining) / (15 * 60);
+            var progress = (10 * 60 - totalSecondsRemaining) / (10 * 60);
             document.getElementById('input').style.background = `linear-gradient(to right, rgb(100, 0, 0, .5) ${progress * 100}%, #000 ${progress * 100}%)`;
             deleteOldNotes();
-            if (now.getMinutes() % 15 == 0 && now.getSeconds() == 0) {
+            if (now.getMinutes() % 10 == 0 && now.getSeconds() == 0) {
                 playTone(440, 500);
             }
         }, 1000);
@@ -186,17 +186,17 @@
             if (lastNote.length > 0) {
                 var lastEndTime = lastNote.match(/\(([^)]+)\)/)[1];
                 [hours, minutes] = lastEndTime.split(':').map(Number);
-                if (minutes === 45) {
+                if (minutes === 50) {
                     minutes = 0;
                     hours = (hours + 1) % 24;
                 } else {
-                    minutes += 15;
+                    minutes += 10;
                 }
             } else {
                 var now = new Date();
                 hours = now.getHours();
                 minutes = now.getMinutes();
-                var remainingMinutes = 15 - (minutes % 15);
+                var remainingMinutes = 10 - (minutes % 10);
                 minutes = (minutes + remainingMinutes) % 60;
                 if (minutes < now.getMinutes()) {
                     hours = (hours + 1) % 24;
