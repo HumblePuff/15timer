@@ -59,7 +59,7 @@ body {
     height: 50vh;
     font-size: 5vw;
     text-indent: -250px;
-    clip-path: inset(0 0 0 50px);
+    clip-path: inset(0 0 0 100px);
     transition: background 1s ease-in-out;
     position: absolute;
     caret-color: transparent;
