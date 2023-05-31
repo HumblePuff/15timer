@@ -53,9 +53,9 @@ body {
     border: black;
 }
 #input {
-    width: 80vw;
+    width: 180vw;
     top: 45vh;
-    left: -12vh;
+    left: -10vh;
     color: rgb(167, 167, 167, 0.5);
     height: 50vh;
     font-size: 5vw;
