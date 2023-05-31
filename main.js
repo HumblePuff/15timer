@@ -50,6 +50,13 @@ function formatRemainingTime(minutes, seconds) {
                     var lastRemovedNote = localStorage.getItem("last_removed_note");
                     if (lastRemovedNote) {
                         document.getElementById("last-line").textContent = lastRemovedNote;
+                        var now = new Date();
+                        var lastNoteHours = Number(lastRemovedNote.split(':')[0]);
+                        var lastNoteMinutes = Number(lastRemovedNote.split(':')[1]);
+                        var lastNoteDate = new Date();
+                        lastNoteDate.setHours(lastNoteHours, lastNoteMinutes);
+                        var diffMinutes = Math.abs(now - lastNoteDate) / 60000; // in minutes
+                        document.getElementById("last-line").style.visibility = diffMinutes > 10 ? "visible" : "hidden";
                     }
                     var displayText = localStorage.getItem("display_text");
                     if (displayText) {
