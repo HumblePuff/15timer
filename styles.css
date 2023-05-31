@@ -1,4 +1,4 @@
-html, body {
+html, body, input {
     overflow: hidden !important;
 }
 .overlay {
@@ -16,7 +16,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100vh;
     margin: 0;
     padding: 0;
     color: rgb(135, 0, 0);
@@ -25,7 +24,6 @@ body {
 }
 #current-time,
 #remaining-time {
-    width: 80vw;
     top: 0vh;
     left: 80%;
     color: rgb(0, 100, 100, 0.5);
@@ -35,9 +33,7 @@ body {
     position: absolute;
     caret-color: transparent;
     background: black;
-}
-#last-line {
-    width: 80vw;
+}#last-line {
     top: 40vh;
     left: 80%;
     color: rgb(0, 100, 100, 0.5);
