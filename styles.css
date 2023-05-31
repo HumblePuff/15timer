@@ -1,6 +1,3 @@
-html, body, input {
-    overflow: hidden !important;
-}
 .overlay {
     position: fixed; /* Position the overlay fixed within the viewport */
     top: 0;
@@ -10,6 +7,12 @@ html, body, input {
     background-color: rgba(0, 0, 0, 0); /* The color is fully transparent */
     z-index: 9999; /* Make sure the overlay is on top of everything else */
     outline: none;
+}
+#inputToggle {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 10000;
 }
 body {
     background-color: black;
@@ -22,18 +25,7 @@ body {
     overflow: hidden;
     cursor: none;
 }
-#current-time,
-#remaining-time {
-    top: 0vh;
-    left: 80%;
-    color: rgb(0, 100, 100, 0.5);
-    height: 2vh;
-    font-size: 5vw;
-    transition: background 1s ease-in-out;
-    position: absolute;
-    caret-color: transparent;
-    background: black;
-}#last-line {
+#last-line {
     top: 40vh;
     left: 30%;
     color: rgb(0, 100, 100, 0.5);

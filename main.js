@@ -1,6 +1,7 @@
 function formatCurrentTime(hours, minutes) {
     return `${hours}:${minutes.toString().padStart(2, "0")}`;
 }
+var useVoiceInput = true;
 function formatRemainingTime(minutes, seconds) {
     return `${minutes.toString().padStart(2, "0")}:${seconds
         .toString()
@@ -13,6 +14,23 @@ function formatRemainingTime(minutes, seconds) {
         var countdown = (10 - (minutes % 10)) * 60 - seconds;
         return countdown;
     }
+    document.getElementById("inputToggle").addEventListener("click", function (event) {
+        event.stopPropagation();  // This will prevent event bubbling
+        useVoiceInput = !useVoiceInput;
+        if (useVoiceInput) {
+            this.textContent = 'Switch to Text Input';
+            document.getElementById("input").readOnly = true;
+        } else {
+            this.textContent = 'Switch to Voice Input';
+            document.getElementById("input").readOnly = false;
+        }
+    });
+    document.body.addEventListener("click", function () {
+        if (useVoiceInput) {
+            document.getElementById("input").readOnly = true;
+            recognition.start();
+        }
+    });
     setInterval(function () {
         var now = new Date();
         now.setSeconds(0, 0); // set seconds and milliseconds to 0
@@ -142,9 +160,6 @@ function formatRemainingTime(minutes, seconds) {
                     }
                     autoSave();
                 }
-                document.body.addEventListener("click", function () {
-                    recognition.start();
-                });
                 function calculateEndTime() {
                     var lastNote = document.getElementById("input").value.split("\n").pop();
                     var hours, minutes;
@@ -200,7 +215,3 @@ function formatRemainingTime(minutes, seconds) {
                     recognition.onerror = function () {
                         document.getElementById("input").readOnly = false;
                     };
-                    document.body.addEventListener("click", function () {
-                        document.getElementById("input").readOnly = true;
-                        recognition.start();
-                    });
