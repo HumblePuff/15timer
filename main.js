@@ -56,7 +56,6 @@ function formatRemainingTime(minutes, seconds) {
                         var lastNoteDate = new Date();
                         lastNoteDate.setHours(lastNoteHours, lastNoteMinutes);
                         var diffMinutes = Math.abs(now - lastNoteDate) / 60000; // in minutes
-                        document.getElementById("last-line").style.visibility = diffMinutes > 10 ? "visible" : "hidden";
                     }
                     var displayText = localStorage.getItem("display_text");
                     if (displayText) {
@@ -117,7 +116,6 @@ function formatRemainingTime(minutes, seconds) {
                             var lastNoteDate = new Date();
                             lastNoteDate.setHours(lastNoteHours, lastNoteMinutes);
                             var diffMinutes = Math.abs(now - lastNoteDate) / 60000; // in minutes
-                            document.getElementById("last-line").style.visibility = diffMinutes > 10 ? "visible" : "hidden";
                         }
                         if (displayText.length > 1) {
                             document.getElementById("display-text").textContent = displayText;
