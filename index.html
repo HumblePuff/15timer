@@ -110,10 +110,14 @@
             var text = document.getElementById('input').value;
             var firstTimeIndex = text.indexOf(')');
             var secondTimeIndex = text.indexOf('(', firstTimeIndex + 1);
+            var newText = "";
             if (secondTimeIndex === -1) {
-                document.getElementById('display-text').textContent = text.substring(firstTimeIndex+2);
+                newText = text.substring(firstTimeIndex+2);
             } else {
-                document.getElementById('display-text').textContent = text.substring(firstTimeIndex+2, secondTimeIndex);
+                newText = text.substring(firstTimeIndex+2, secondTimeIndex);
+            }
+            if(newText.length > 1) { // Check if the new text length is more than 1
+                document.getElementById('display-text').textContent = newText;
             }
             document.getElementById('current-time').textContent = formatCurrentTime(now.getHours(), now.getMinutes());
             var totalSecondsRemaining = minutesRemaining * 60 + secondsRemaining;
@@ -164,7 +168,7 @@
                     noteDate.setHours(hours, minutes, 0, 0);
                     if (noteDate <= now || noteDate >= fourHoursLater) {
                         index += 1;
-                        lastRemovedNote = note; // update the last removed note
+                        lastRemovedNote = noteTime[0]; // update the last removed note to only include timestamp
                     } else {
                         break;
                     }
