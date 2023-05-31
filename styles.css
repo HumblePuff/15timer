@@ -50,6 +50,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 50vh;
+    border: black;
 }
 #input {
     width: 80vw;
@@ -61,6 +62,7 @@ body {
     position: absolute;
     caret-color: transparent;
     background: black;
+    border: black;
 }
 #display-text {
     position: absolute;
