@@ -59,6 +59,7 @@ body {
     position: absolute;
     caret-color: transparent;
     background: black;
+    visibility: hidden;
 }
 #display-text {
     position: absolute;

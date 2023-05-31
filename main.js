@@ -104,6 +104,13 @@ function formatRemainingTime(minutes, seconds) {
                             lastRemovedNote = lastRemovedNote.replace(/[()]/g, "");
                             document.getElementById("last-line").textContent = lastRemovedNote;
                             localStorage.setItem("last_removed_note", lastRemovedNote);
+                            var now = new Date();
+                            var lastNoteHours = Number(lastRemovedNote.split(':')[0]);
+                            var lastNoteMinutes = Number(lastRemovedNote.split(':')[1]);
+                            var lastNoteDate = new Date();
+                            lastNoteDate.setHours(lastNoteHours, lastNoteMinutes);
+                            var diffMinutes = Math.abs(now - lastNoteDate) / 60000; // in minutes
+                            document.getElementById("last-line").style.visibility = diffMinutes > 10 ? "visible" : "hidden";
                         }
                         if (displayText.length > 1) {
                             document.getElementById("display-text").textContent = displayText;
