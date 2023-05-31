@@ -49,9 +49,7 @@ body {
 #last-line {
     width: 80vw;
     top: 0vh;
-    left: 50%;
-    transform: translateX(-50%);
-    /* color: rgb(100, 0, 0, 0.5); */
+    left: 80%;
     color: rgb(0, 100, 100, 0.5);
     height: 2vh;
     font-size: 5vw;
