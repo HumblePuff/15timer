@@ -127,6 +127,10 @@
             if (localStorage.getItem('notepad_text')) {
                 document.getElementById('input').value = localStorage.getItem('notepad_text');
             }
+            var lastRemovedNote = localStorage.getItem('last_removed_note');
+            if (lastRemovedNote) {
+                document.getElementById('last-line').textContent = lastRemovedNote;
+            }
         }
         function playTone(frequency = 440, duration = 500) {
             var now = new Date();
@@ -167,8 +171,9 @@
             }
             notes.splice(0, index);
             document.getElementById('input').value = notes.join('\n');
-            if (notes.length > 1) {
+            if (lastRemovedNote.length > 1) {
                 document.getElementById('last-line').textContent = lastRemovedNote;
+                localStorage.setItem('last_removed_note', lastRemovedNote);
             }
             autoSave();
         }
