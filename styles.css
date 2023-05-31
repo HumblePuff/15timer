@@ -1,3 +1,6 @@
+html, body {
+    overflow: hidden !important;
+}
 .overlay {
     position: fixed; /* Position the overlay fixed within the viewport */
     top: 0;
