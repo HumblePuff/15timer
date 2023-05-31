@@ -55,19 +55,16 @@ body {
 #input {
     width: 80vw;
     top: 45vh;
+    left: -20vh;
     color: rgb(167, 167, 167, 0.5);
     height: 50vh;
     font-size: 5vw;
-    text-indent: -250px;
     clip-path: inset(0 0 0 100px);
     transition: background 1s ease-in-out;
     position: absolute;
     caret-color: transparent;
     background: black;
-    border-right: 10px solid rgb(0, 100, 100, 0.5);
-    border-top: black;
-    border-bottom: black;
-    border-left: black;
+    border: black;
     white-space: nowrap;
 }
 #display-text {
