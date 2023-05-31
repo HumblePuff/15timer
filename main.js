@@ -27,8 +27,6 @@ function formatRemainingTime(minutes, seconds) {
             now.getMinutes()
             );
             var totalSecondsRemaining = minutesRemaining * 60 + secondsRemaining;
-            var progress = (10 * 60 - totalSecondsRemaining) / (10 * 60);
-            document.getElementById("input").style.background = `linear-gradient(to right, rgb(100, 0, 0, .5) ${progress * 100}%, #000 ${progress * 100}%)`;
             deleteOldNotes();
             // Change color of last-line if current time is outside the range
             var lastLineText = document.getElementById("last-line").textContent;
