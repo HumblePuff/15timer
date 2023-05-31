@@ -59,7 +59,8 @@ body {
     color: rgb(167, 167, 167, 0.5);
     height: 50vh;
     font-size: 5vw;
-    text-indent: -220px;
+    margin-left: -220px; /* Moves the input to the left */
+    padding-left: 220px;
     transition: background 1s ease-in-out;
     position: absolute;
     caret-color: transparent;
