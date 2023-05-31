@@ -62,7 +62,10 @@ body {
     position: absolute;
     caret-color: transparent;
     background: black;
-    border: black;
+    border-right: 10px solid rgb(0, 100, 100, 0.5);
+    border-top: black;
+    border-bottom: black;
+    border-left: black;
 }
 #display-text {
     position: absolute;
