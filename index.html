@@ -93,101 +93,84 @@
             return `${hours}:${minutes.toString().padStart(2, "0")}`;
         }
         function formatRemainingTime(minutes, seconds) {
-            return `${minutes.toString().padStart(2, "0")}:${seconds
-                .toString()
-                .padStart(2, "0")}`;
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        function calculateCountdown() {
+            var now = new Date();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            var countdown = ((10 - (minutes % 10)) * 60) - seconds;
+            return countdown;
+        }
+        setInterval(function() {
+            var now = new Date();
+            var countdown = calculateCountdown();
+            var minutesRemaining = Math.floor(countdown / 60);
+            var secondsRemaining = countdown % 60;
+            var text = document.getElementById('input').value;
+            var firstTimeIndex = text.indexOf(')');
+            var secondTimeIndex = text.indexOf('(', firstTimeIndex + 1);
+            if (secondTimeIndex === -1) {
+                document.getElementById('display-text').textContent = text.substring(firstTimeIndex+2);
+            } else {
+                document.getElementById('display-text').textContent = text.substring(firstTimeIndex+2, secondTimeIndex);
             }
-            function calculateCountdown() {
-                var now = new Date();
-                var minutes = now.getMinutes();
-                var seconds = now.getSeconds();
-                var countdown = (10 - (minutes % 10)) * 60 - seconds;
-                return countdown;
+            document.getElementById('current-time').textContent = formatCurrentTime(now.getHours(), now.getMinutes());
+            var totalSecondsRemaining = minutesRemaining * 60 + secondsRemaining;
+            var progress = (10 * 60 - totalSecondsRemaining) / (10 * 60);
+            document.getElementById('input').style.background = `linear-gradient(to right, rgb(100, 0, 0, .5) ${progress * 100}%, #000 ${progress * 100}%)`;
+            deleteOldNotes();
+            if (now.getMinutes() % 10 == 0 && now.getSeconds() == 0) {
+                playTone(440, 500);
             }
-            setInterval(function () {
-                var now = new Date();
-                var countdown = calculateCountdown();
-                var minutesRemaining = Math.floor(countdown / 60);
-                var secondsRemaining = countdown % 60;
-                var text = document.getElementById("input").value;
-                var firstTimeIndex = text.indexOf(")");
-                var secondTimeIndex = text.indexOf("(", firstTimeIndex + 1);
-                document.getElementById("current-time").textContent = formatCurrentTime(
-                now.getHours(),
-                now.getMinutes()
-                );
-                var totalSecondsRemaining = minutesRemaining * 60 + secondsRemaining;
-                var progress = (10 * 60 - totalSecondsRemaining) / (10 * 60);
-                document.getElementById(
-                "input"
-                ).style.background = `linear-gradient(to right, rgb(100, 0, 0, .5) ${
-                    progress * 100
-                }%, #000 ${progress * 100}%)`;
-                deleteOldNotes();
-                if (now.getMinutes() % 10 == 0 && now.getSeconds() == 0) {
-                    playTone(440, 500);
-                }
-            }, 1000);
-            function autoSave() {
-                localStorage.setItem(
-                "notepad_text",
-                document.getElementById("input").value
-                );
+        }, 1000);
+        function autoSave() {
+            localStorage.setItem('notepad_text', document.getElementById('input').value);
+        }
+        function autoRetrieve() {
+            if (localStorage.getItem('notepad_text')) {
+                document.getElementById('input').value = localStorage.getItem('notepad_text');
             }
-            function autoRetrieve() {
-                if (localStorage.getItem("notepad_text")) {
-                    document.getElementById("input").value = localStorage.getItem("notepad_text");
-                }
-                var lastRemovedNote = localStorage.getItem("last_removed_note");
-                if (lastRemovedNote) {
-                    document.getElementById("last-line").textContent = lastRemovedNote;
-                }
-                var displayText = localStorage.getItem("display_text");
-                if (displayText) {
-                    document.getElementById("display-text").textContent = displayText;
-                }
+            var lastRemovedNote = localStorage.getItem('last_removed_note');
+            if (lastRemovedNote) {
+                document.getElementById('last-line').textContent = lastRemovedNote;
             }
-            function playTone(frequency = 440, duration = 500) {
-                var now = new Date();
-                if (now.getHours() >= 9) {
-                    var audioContext = new (window.AudioContext ||
-                    window.webkitAudioContext)();
-                    var oscillator = audioContext.createOscillator();
-                    oscillator.frequency.value = frequency;
-                    oscillator.type = "square";
-                    oscillator.connect(audioContext.destination);
-                    oscillator.start();
-                    setTimeout(function () {
-                        oscillator.stop();
-                    }, duration);
-                }
+        }
+        function playTone(frequency = 440, duration = 500) {
+            var now = new Date();
+            if (now.getHours() >= 9) {
+                var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                var oscillator = audioContext.createOscillator();
+                oscillator.frequency.value = frequency;
+                oscillator.type = "square";
+                oscillator.connect(audioContext.destination);
+                oscillator.start();
+                setTimeout(function() {
+                    oscillator.stop();
+                }, duration);
             }
-            function deleteOldNotes() {
-                var now = new Date();
-                var fourHoursLater = new Date(now.getTime() + 4 * 60 * 60 * 1000);
-                var notes = document.getElementById("input").value.split("\n");
-                var index = 0;
-                var lastRemovedNote = "";
-                var displayText = "";
-                for (var note of notes) {
-                    var noteTime = note.match(/\(([^)]+)\)/);
-                    if (noteTime) {
-                        var [hours, minutes] = noteTime[1].split(":").map(Number);
-                        var noteDate = new Date();
-                        noteDate.setHours(hours, minutes, 0, 0);
-                        if (noteDate <= now || noteDate >= fourHoursLater ) {
-                            index += 1;
-                            var noteParts = note.split(') ');
-                            if (noteParts.length > 1) {
-                                lastRemovedNote = noteParts[0] + ')';
-                                displayText = noteParts[1];
-                            }
-                        } else {
-                            break;
-                        }
-                    } else {
+        }
+        function deleteOldNotes() {
+            var now = new Date();
+            var fourHoursLater = new Date(now.getTime() + 4*60*60*1000);
+            var notes = document.getElementById('input').value.split('\n');
+            var index = 0;
+            var lastRemovedNote = ''; // new variable to hold the last removed note
+            for (var note of notes) {
+                var noteTime = note.match(/\(([^)]+)\)/);
+                if (noteTime) {
+                    var [hours, minutes] = noteTime[1].split(':').map(Number);
+                    var noteDate = new Date();
+                    noteDate.setHours(hours, minutes, 0, 0);
+                    if (noteDate <= now || noteDate >= fourHoursLater) {
                         index += 1;
+                        lastRemovedNote = note; // update the last removed note
+                    } else {
+                        break;
                     }
+                } else {
+                    index += 1;
+                    lastRemovedNote = note; // update the last removed note
                 }
                 notes.splice(0, index);
                 document.getElementById("input").value = notes.join("\n");
