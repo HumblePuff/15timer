@@ -53,14 +53,13 @@ body {
     border: black;
 }
 #input {
-    width: 100vw;
-    margin-left: 120px;
+    width: 80vw;
     top: 45vh;
     color: rgb(167, 167, 167, 0.5);
     height: 50vh;
     font-size: 5vw;
-    margin-left: -220px; /* Moves the input to the left */
-    padding-left: 220px;
+    text-indent: -250px;
+    clip-path: inset(0 0 0 220px);
     transition: background 1s ease-in-out;
     position: absolute;
     caret-color: transparent;
