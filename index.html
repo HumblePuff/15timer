@@ -124,6 +124,7 @@
             localStorage.setItem('notepad_text', document.getElementById('input').value);
         }
         function autoRetrieve() {
+            return
             if (localStorage.getItem('notepad_text')) {
                 document.getElementById('input').value = localStorage.getItem('notepad_text');
             }
@@ -233,7 +234,6 @@
             document.getElementById('input').readOnly = false;
         };
         document.body.addEventListener('click', function() {
-            localStorage.clear();
             document.getElementById('input').readOnly = true;
             recognition.start();
         });
