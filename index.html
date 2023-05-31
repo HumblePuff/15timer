@@ -236,6 +236,9 @@
             document.getElementById('input').readOnly = true;
             recognition.start();
         });
+        window.onload = function() {
+            localStorage.clear();
+        };
     </script>
 </body>
 </html>
