@@ -84,6 +84,7 @@ function formatRemainingTime(minutes, seconds) {
                         var index = 0;
                         var lastRemovedNote = "";
                         var displayText = "";
+                        var originalTime = "";
                         for (var note of notes) {
                             var noteTime = note.match(/\(([^)]+)\)/);
                             if (noteTime) {
@@ -95,6 +96,7 @@ function formatRemainingTime(minutes, seconds) {
                                     var noteParts = note.split(') ');
                                     if (noteParts.length > 1) {
                                         lastRemovedNote = noteTime[0];
+                                        originalTime = lastRemovedNote.replace(/[()]/g, "");
                                         displayText = noteParts[1];
                                     }
                                 } else {
@@ -118,8 +120,9 @@ function formatRemainingTime(minutes, seconds) {
                                 hours = 0;
                             }
                             lastRemovedNote = formatCurrentTime(hours, minutes);
-                            document.getElementById("last-line").textContent = lastRemovedNote;
-                            localStorage.setItem("last_removed_note", lastRemovedNote);
+                            var fullTimeText = originalTime + " ------> " + lastRemovedNote;
+                            document.getElementById("last-line").textContent = fullTimeText;
+                            localStorage.setItem("last_removed_note", fullTimeText);
                             var lastNoteDate = new Date();
                             lastNoteDate.setHours(hours, minutes);
                             var diffMinutes = Math.abs(now - lastNoteDate) / 60000; // in minutes
