@@ -53,10 +53,9 @@ body {
     border: black;
 }
 #input {
-    width: 80vw;
+    width: 100vw;
     top: 45vh;
     color: rgb(167, 167, 167, 0.5);
-    margin-left: 20px;
     height: 50vh;
     font-size: 5vw;
     transition: background 1s ease-in-out;
@@ -67,6 +66,7 @@ body {
     border-top: black;
     border-bottom: black;
     border-left: black;
+    white-space: nowrap;
 }
 #display-text {
     position: absolute;
